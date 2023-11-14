@@ -1,0 +1,5 @@
+com/demo/shipping/service/ShippingService.class
+com/demo/shipping/ShippingDemoApplication.class
+com/demo/shipping/controller/ShippingController.class
+com/demo/shipping/model/ShippingRequest.class
+com/demo/shipping/model/ShippingResponse.class

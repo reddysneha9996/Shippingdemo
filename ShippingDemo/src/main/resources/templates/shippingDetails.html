@@ -1,0 +1,19 @@
+<!-- shippingDetails.html -->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shipping Details</title>
+</head>
+<body>
+
+<h2>Shipping Details</h2>
+
+<!-- Display shipping details -->
+
+<form th:action="@{/downloadPdf}" method="get">
+    <button type="submit">Download PDF</button>
+</form>
+
+</body>
+</html>

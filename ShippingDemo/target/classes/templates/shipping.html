@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Shipping Rates</title>
+</head>
+<body>
+
+<h2>Shipping Rates</h2>
+
+<form th:object="${shippingRequest}" th:action="@{/getRates}" method="post">
+    <!-- Input fields for 'from' address -->
+    <h3>From Address</h3>
+    <label>Company Name: <input type="text" th:field="*{from.companyName}"/></label><br/>
+    <label>Street Address: <input type="text" th:field="*{from.streetAddress}"/></label><br/>
+    <!-- Add other 'from' address fields -->
+
+    <!-- Input fields for 'to' address -->
+    <h3>To Address</h3>
+    <label>Company Name: <input type="text" th:field="*{to.companyName}"/></label><br/>
+    <label>Street Address: <input type="text" th:field="*{to.streetAddress}"/></label><br/>
+    <!-- Add other 'to' address fields -->
+
+    <!-- Input fields for other elements in ShippingRequest -->
+    <label>Package Type: <input type="text" th:field="*{packageType}"/></label><br/>
+    
+    <!-- Input fields for line items -->
+    <h3>Line Item</h3>
+    <label>Length: <input type="number" step="0.01" th:field="*{lineItems[0].length}"/></label><br/>
+    <label>Width: <input type="number" step="0.01" th:field="*{lineItems[0].width}"/></label><br/>
+    <label>Height: <input type="number" step="0.01" th:field="*{lineItems[0].height}"/></label><br/>
+    <label>Weight: <input type="number" step="0.01" th:field="*{lineItems[0].weight}"/></label><br/>
+    <label>Currency: <input type="text" th:field="*{lineItems[0].declaredValue.currency}"/></label><br/>
+    <label>Amount: <input type="number" step="0.01" th:field="*{lineItems[0].declaredValue.amount}"/></label><br/>
+    <label>Description: <input type="text" th:field="*{lineItems[0].description}"/></label><br/>
+    <label>NMFC Code: <input type="text" th:field="*{lineItems[0].nmfcCode}"/></label><br/>
+    <label>Freight Class: <input type="text" th:field="*{lineItems[0].freightClass}"/></label><br/>
+    
+
+    <label>Unit of Measurement: <input type="text" th:field="*{unitOfMeasurement}"/></label><br/>
+    
+    <!-- Input fields for service options -->
+    <h3>Service Options</h3>
+    <div th:each="option : *{serviceOptions}">
+        <label th:text="'Option: ' + ${option}"></label><br/>
+    </div>
+    
+    <label>Ship Date: <input type="text" th:field="*{shipDate}"/></label><br/>
+    <label>Insurance Type: <input type="text" th:field="*{insuranceType}"/></label><br/>
+    
+    <!-- Input fields for customs invoice 
+    <h3>Customs Invoice</h3>
+    <label>Dutiable: <input type="checkbox" th:field="*{customsInvoice.dutiesAndTaxes.dutiable}"/></label><br/>
+    <label>Paid By: <input type="text" th:field="*{customsInvoice.dutiesAndTaxes.paidBy}"/></label><br/>
+    <label>Currency: <input type="text" th:field="*{customsInvoice.currency}"/></label><br/>
+-->
+    <!-- Input fields for invoice items 
+    <h4>Invoice Items</h4>
+    <div th:each="item, iterStat : *{customsInvoice.invoiceItems}">
+        <label th:text="'Item ' + ${iterStat.index + 1}"></label><br/>
+        <label>Quantity: <input type="number" th:field="*{customsInvoice.invoiceItems[__${iterStat.index}__].quantity}"/></label><br/>
+        <label>Code: <input type="text" th:field="*{customsInvoice.invoiceItems[__${iterStat.index}__].code}"/></label><br/>
+        <label>Description: <input type="text" th:field="*{customsInvoice.invoiceItems[__${iterStat.index}__].description}"/></label><br/>
+        <label>Origin: <input type="text" th:field="*{customsInvoice.invoiceItems[__${iterStat.index}__].origin}"/></label><br/>
+        <label>Province or State: <input type="text" th:field="*{customsInvoice.invoiceItems[__${iterStat.index}__].provinceOrState}"/></label><br/>
+        <label>Unit Price: <input type="number" step="0.01" th:field="*{customsInvoice.invoiceItems[__${iterStat.index}__].unitPrice}"/></label><br/>
+        <label>Weight: <input type="number" step="0.01" th:field="*{customsInvoice.invoiceItems[__${iterStat.index}__].weight}"/></label><br/>
+    </div>
+
+    <label>Reason for Export: <input type="text" th:field="*{customsInvoice.reasonForExport}"/></label><br/>
+-->
+
+    <button type="submit">Get Rates</button>
+</form>
+
+<!-- Display shipping options -->
+<div th:if="${shippingOptions != null}">
+    <h3>Shipping Options</h3>
+    <form th:action="@{/proceed}" method="post">
+        <ul th:each="option, iterStat : ${shippingOptions}">
+            <li>
+                <input type="radio" th:id="'option_' + ${iterStat.index}" th:name="selectedOption" th:value="${iterStat.index}"/>
+                <label th:for="'option_' + ${iterStat.index}" th:text="${option.optionName} + ' - Cost: ' + ${option.cost}"/>
+            </li>
+        </ul>
+        <button type="submit">Next</button>
+    </form>
+</div>
+
+</body>
+</html>
